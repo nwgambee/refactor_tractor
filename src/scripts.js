@@ -4,7 +4,7 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-import userData from './data/users';
+// import userData from './data/users';
 import hydrationData from './data/hydration';
 import sleepData from './data/sleep';
 import activityData from './data/activity';
@@ -47,32 +47,43 @@ var userMinutesThisWeek = document.getElementById('userMinutesThisWeek');
 var bestUserSteps = document.getElementById('bestUserSteps');
 var streakList = document.getElementById('streakList');
 var streakListMinutes = document.getElementById('streakListMinutes')
+let userList = [];
 
 function startApp() {
-  let userList = [];
   makeUsers(userList);
-  let userRepo = new UserRepo(userList);
-  let hydrationRepo = new Hydration(hydrationData);
-  let sleepRepo = new Sleep(sleepData);
-  let activityRepo = new Activity(activityData);
-  var userNowId = pickUser();
-  let userNow = getUserById(userNowId, userRepo);
-  let today = makeToday(userRepo, userNowId, hydrationData);
-  let randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
-  historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
-  addInfoToSidebar(userNow, userRepo);
-  addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
-  addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
-  let winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
-  addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
-  addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
 }
 
-function makeUsers(array) {
-  userData.forEach(function(dataItem) {
-    let user = new User(dataItem);
-    array.push(user);
-  })
+function makeUsers(users) {
+  fetch(" https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+    .then(response => response.json())
+    .then(data => data.userData.forEach(user => {
+      let user1 = new User(user);
+      addUsers(user1, data.userData.length);
+    }))
+}
+
+function addUsers(user, dataLength) {
+  userList.push(user);
+
+  if (userList.length === dataLength) {
+    let userRepo = new UserRepo(userList);
+
+    // fetch data for hydration sleep and acitivity through API's
+    let hydrationRepo = new Hydration(hydrationData);
+    let sleepRepo = new Sleep(sleepData);
+    let activityRepo = new Activity(activityData);
+    var userNowId = pickUser();
+    let userNow = getUserById(userNowId, userRepo);
+    let today = makeToday(userRepo, userNowId, hydrationData);
+    let randomHistory = makeRandomDate(userRepo, userNowId, hydrationData);
+    historicalWeek.forEach(instance => instance.insertAdjacentHTML('afterBegin', `Week of ${randomHistory}`));
+    addInfoToSidebar(userNow, userRepo);
+    addHydrationInfo(userNowId, hydrationRepo, today, userRepo, randomHistory);
+    addSleepInfo(userNowId, sleepRepo, today, userRepo, randomHistory);
+    let winnerNow = makeWinnerID(activityRepo, userNow, today, userRepo);
+    addActivityInfo(userNowId, activityRepo, today, userRepo, randomHistory, userNow, winnerNow);
+    addFriendGameInfo(userNowId, activityRepo, userRepo, today, randomHistory, userNow);
+  }
 }
 
 function pickUser() {
@@ -99,7 +110,7 @@ function makeFriendHTML(user, userStorage) {
   return user.getFriendsNames(userStorage).map(friendName => `<li class='historical-list-listItem'>${friendName}</li>`).join('');
 }
 
-function makeWinnerID(activityInfo, user, dateString, userStorage){
+function makeWinnerID(activityInfo, user, dateString, userStorage) {
   return activityInfo.getWinnerId(user, dateString, userStorage)
 }
 
