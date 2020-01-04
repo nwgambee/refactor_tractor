@@ -99,7 +99,7 @@ function makeRandomDate(userStorage, id, dataSet) {
 
 function addHydrationInfo(id, hydrationInfo, dateString, userStorage, laterDateString) {
   $('#hydrationToday').before(`<p>You drank</p><p><span class="number">${hydrationInfo.calculateDailyOunces(id, dateString)}</span></p><p>oz water today.</p>`);
-  $('#hydrationAverage').before('afterBegin', `<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`)
+  $('#hydrationAverage').before(`<p>Your average water intake is</p><p><span class="number">${hydrationInfo.calculateAverageOunces(id)}</span></p> <p>oz per day.</p>`)
   $('#hydrationThisWeek').before(makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateFirstWeekOunces(userStorage, id)));
   $('#hydrationEarlierWeek').before(makeHydrationHTML(id, hydrationInfo, userStorage, hydrationInfo.calculateRandomWeekOunces(laterDateString, id, userStorage)));
 }
