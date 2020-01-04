@@ -57,18 +57,18 @@ function makeUsers(users) {
   fetch(" https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
     .then(response => response.json())
     .then(data => data.userData.forEach(user => {
-      // console.log(user);
       let user1 = new User(user);
-      // users.push(user1);
-      addUsers(user1);
+      addUsers(user1, data.userData.length);
     }))
 }
 
-function addUsers(user) {
+function addUsers(user, dataLength) {
   userList.push(user);
-  if (userList.length === 50) {
+
+  if (userList.length === dataLength) {
     let userRepo = new UserRepo(userList);
-    console.log(userRepo);
+
+    // fetch data for hydration sleep and acitivity through API's
     let hydrationRepo = new Hydration(hydrationData);
     let sleepRepo = new Sleep(sleepData);
     let activityRepo = new Activity(activityData);
