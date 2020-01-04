@@ -15,3 +15,15 @@ $grey-background: #4d4e4f;
   justify-content: flex-start;
   width: 50%;
 }
+
+@mixin card-today-styles {
+  text-align: center;
+  height: auto;
+  font-size: 1.5em;
+  margin: .5em;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+}
