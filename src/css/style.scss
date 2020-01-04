@@ -177,41 +177,18 @@ h1 {
 }
 
 .card-history-hydration {
-  text-align: center;
   background-color: $hydration-color;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include card-history-styles;
 }
 
 .card-history-sleep {
-  text-align: center;
   background-color: $sleep-color;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
+  @include card-history-styles;
 }
 
 .card-history-activity {
-  text-align: center;
   background-color: $activity-color;
-  font-size: 1em;
-  margin: .5em;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 50%;
-  height: 93%;
-  overflow: scroll;
+  @include card-history-styles;
 }
 
 .number {
