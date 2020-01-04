@@ -4,7 +4,7 @@ import './css/style.scss';
 import './images/person walking on path.jpg';
 import './images/The Rock.jpg';
 
-import userData from './data/users';
+// import userData from './data/users';
 import hydrationData from './data/hydration';
 import sleepData from './data/sleep';
 import activityData from './data/activity';
@@ -69,11 +69,19 @@ function startApp() {
 }
 
 function makeUsers(array) {
-  userData.forEach(function(dataItem) {
-    let user = new User(dataItem);
-    array.push(user);
-  })
-}
+  // userData.forEach(function(dataItem) {
+  //   let user = new User(dataItem);
+  //   array.push(user);
+  //   console.log(array);
+  // })
+  fetch(" https://fe-apps.herokuapp.com/api/v1/fitlit/1908/users/userData")
+      .then(response => response.json())
+      .then(data => data.userData.forEach(user => {
+        let user1 = new User(user);
+        array.push(user1);
+        // console.log(array);
+      }))
+    }
 
 function pickUser() {
   return Math.floor(Math.random() * 50);
